@@ -1,0 +1,23 @@
+package com.strmanager.api.service;
+
+import com.strmanager.api.domain.Workout;
+import com.strmanager.api.dto.WorkoutSearchDto;
+import com.strmanager.api.repository.WorkoutRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@Transactional(readOnly = true)
+@RequiredArgsConstructor
+public class WorkoutService {
+
+    private final WorkoutRepository workoutRepository;
+
+    public List<Workout> findWorkoutList(WorkoutSearchDto workoutSearchDto) {
+        return workoutRepository.findWorkoutList(workoutSearchDto);
+    }
+
+}
