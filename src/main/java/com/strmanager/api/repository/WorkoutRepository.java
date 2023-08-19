@@ -55,4 +55,7 @@ public class WorkoutRepository {
         return difficulty != null && !difficulty.equals("")? workout.difficulty.eq(difficulty) : null;
     }
 
+    public void save(Workout workout) {
+        em.persist(workout);
+    }
 }

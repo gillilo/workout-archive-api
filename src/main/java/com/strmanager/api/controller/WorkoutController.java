@@ -3,14 +3,10 @@ package com.strmanager.api.controller;
 import com.strmanager.api.domain.Workout;
 import com.strmanager.api.dto.WorkoutSearchDto;
 import com.strmanager.api.service.WorkoutService;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.*;
+import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 @RestController
@@ -39,5 +35,37 @@ public class WorkoutController {
     static class FindWorkoutListResponse {
         private int count;
         private List<Workout> data;
+    }
+
+    //select '{!name!:!'||name||'!,!type!:!'||type||'!,!muscle!:!'||muscle||'!,!equipment!:!'||equipment||'!,!difficulty!:!'||difficulty||'!,!instructions!:!'||instructions||'!},' from workouts_tmp
+    private final EntityManager em;
+    @PostMapping("/workout/dumpinsert")
+    public void dumpinsert(
+            @RequestBody List<DumpDto> list
+    ) {
+        list.forEach(dumpDto -> {
+            Workout workout = Workout.createWorkout(
+                    dumpDto.name,
+                    dumpDto.type,
+                    dumpDto.muscle,
+                    dumpDto.equipment,
+                    dumpDto.difficulty,
+                    dumpDto.instructions
+            );
+            workoutService.save(workout);
+        });
+    }
+    @Data
+    @Getter @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @ToString
+    private static class DumpDto {
+        private String name;
+        private String type;
+        private String muscle;
+        private String equipment;
+        private String difficulty;
+        private String instructions;
     }
 }

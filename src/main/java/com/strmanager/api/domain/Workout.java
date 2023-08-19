@@ -30,4 +30,22 @@ public class Workout {
     @Column(columnDefinition = "TEXT")
     private String instructions;
 
+    public static Workout createWorkout(
+            String name,
+            String type,
+            String muscle,
+            String equipment,
+            String difficulty,
+            String instructions
+    ) {
+        Workout workout = new Workout();
+        workout.name = name;
+        workout.type = type;
+        workout.muscle = muscle;
+        workout.equipment = equipment;
+        workout.difficulty = difficulty;
+        workout.instructions = instructions;
+        return workout;
+    }
+
 }

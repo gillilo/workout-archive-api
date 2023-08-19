@@ -20,4 +20,9 @@ public class WorkoutService {
         return workoutRepository.findWorkoutList(workoutSearchDto);
     }
 
+    @Transactional
+    public void save(Workout workout) {
+        workoutRepository.save(workout);
+    }
+
 }

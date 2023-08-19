@@ -76,7 +76,9 @@ public class RoutineRepository {
     }
 
     public void deleteRoutineDtl(long id) {
-        RoutineDtl d = em.find(RoutineDtl.class, id);
-        em.remove(d);
+        query
+            .delete(routineDtl)
+            .where(routineDtl.id.eq(id))
+            .execute();
     }
 }

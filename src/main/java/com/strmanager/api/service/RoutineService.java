@@ -66,6 +66,8 @@ public class RoutineService {
     public void update(RoutineUpdateDto routineUpdateDto) {
         Routine routine = routineRepository.findById(routineUpdateDto.getId());
         routine.update(routineUpdateDto);
+        List<RoutineDtl> routineDtls = routine.getRoutineDtls();
+
         ArrayList<RoutineDtlUpdateDto> updateDtoDtls = routineUpdateDto.getDtls();
         for (RoutineDtlUpdateDto dto : updateDtoDtls) {
             if (dto.getId() > 0) {
@@ -74,6 +76,19 @@ public class RoutineService {
             } else {
                 RoutineDtl routineDtl = RoutineDtl.createRoutineDtl(routine, dto);
                 routineRepository.saveDtl(routineDtl);
+            }
+        }
+
+        for (RoutineDtl dtl : routineDtls) {
+            boolean remove = true;
+            for (RoutineDtlUpdateDto dto : updateDtoDtls) {
+                if (dtl.getId() == dto.getId()) {
+                    remove = false;
+                    break;
+                }
+            }
+            if (remove) {
+                routineRepository.deleteRoutineDtl(dtl.getId());
             }
         }
     }
