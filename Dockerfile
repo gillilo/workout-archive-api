@@ -30,4 +30,4 @@ ENTRYPOINT ["java"]
 CMD ["-jar", "workout-archive-api-1.jar"]
 
 # docker build -t gillilo/workout-archive-api:latest .
-# docker run -d -p 8002:8080 --name test --network workout-archive -e DB_URL=workout-archive-db -e DB_PORT=5432 -e DB_NAME=workoutArchive -e DB_USERNAME=gillilo -e DB_PASSWORD=gillilo test:latest
+# docker run -d -p 8002:8080 --name workout-archive-api --network workout-archive -e DB_URL=workout-archive-db -e DB_PORT=5432 -e DB_NAME=workoutArchive -e DB_USERNAME=gillilo -e DB_PASSWORD=gillilo gillilo/workout-archive-api:latest
