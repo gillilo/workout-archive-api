@@ -1,0 +1,76 @@
+// [1] QueryDsl 버전 명시
+buildscript {
+	ext {
+		queryDslVersion = "5.0.0"
+	}
+}
+
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.0'
+	id 'io.spring.dependency-management' version '1.1.5'
+}
+
+group = 'com.rlaghlwns'
+version = '1'
+
+java {
+	sourceCompatibility = '17'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// web 관련
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-devtools'
+
+	// test 관련
+	implementation 'junit:junit:4.13.1'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// 기타
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'
+
+	// 롬복
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	// jpa 관련
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	runtimeOnly 'com.h2database:h2'
+	// java - json - hibernate 객체 변환 라이브러리
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
+	// postgreSQL driver
+	runtimeOnly 'org.postgresql:postgresql'
+
+	// [2] QueryDSL 라이브러리
+	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+}
+
+// [3] Querydsl 설정부
+def generated = 'src/main/generated'
+
+// [4] querydsl QClass 파일 생성 위치를 지정
+tasks.withType(JavaCompile) {
+	options.getGeneratedSourceOutputDirectory().set(file(generated))
+}
+
+// [5] java source set 에 querydsl QClass 위치 추가
+sourceSets {
+	main.java.srcDirs += [ generated ]
+}
+
+// [6] gradle clean 시에 QClass 디렉토리 삭제
+clean {
+	delete file(generated)
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

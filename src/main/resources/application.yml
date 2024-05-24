@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    #    url: jdbc:postgresql://localhost:5432/strmanager
+    url: jdbc:postgresql://${DB_URL:localhost}:${DB_PORT:5432}/${DB_NAME:workoutArchive}
+    username: ${DB_USERNAME:gillilo}
+    password: ${DB_PASSWORD:gillilo}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none # When you launch the application for the first time - switch "none" at "create"
+    properties:
+      hibernate:
+        #        show_sql: true
+        database: postgresql
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  sql:
+    init:
+      platform: postgres
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+#    org.hibernate.type: trace
