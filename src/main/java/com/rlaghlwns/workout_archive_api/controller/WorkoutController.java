@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@RestController("/workout")
 @RequiredArgsConstructor
 public class WorkoutController {
 
     private final WorkoutService workoutService;
 
-    @GetMapping("/workout")
+    @GetMapping("/ls")
     public FindWorkoutListResponse findWorkoutList(
             @RequestParam(required = false, name = "n") String name,
             @RequestParam(required = false, name = "t") String type,
@@ -38,7 +38,7 @@ public class WorkoutController {
 
     //select '{!name!:!'||name||'!,!type!:!'||type||'!,!muscle!:!'||muscle||'!,!equipment!:!'||equipment||'!,!difficulty!:!'||difficulty||'!,!instructions!:!'||instructions||'!},' from workouts_tmp
 //    private final EntityManager em;
-    @PostMapping("/workout/dumpinsert")
+    @PostMapping("/dumpinsert")
     public void dumpinsert(
             @RequestBody List<DumpDto> list
     ) {
