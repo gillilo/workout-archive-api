@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/workout")
+@RequestMapping("/workout")
+@RestController
 @RequiredArgsConstructor
 public class WorkoutController {
 
